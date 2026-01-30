@@ -19,7 +19,7 @@ export default function Home() {
             alt="Hero Background" 
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background/40" />
+          <div className="absolute inset-0 bg-white/60" />
         </div>
 
         <div className="relative z-10 container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 items-center">
@@ -37,24 +37,24 @@ export default function Home() {
               <span className="text-sm font-semibold tracking-wide uppercase">Now Delivering in Food City</span>
             </div>
             
-            <h1 className="text-5xl lg:text-7xl font-bold font-display leading-tight text-white">
-              Taste the <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-orange-400">Aura</span> <br />
-              of Perfection
+            <h1 className="text-5xl lg:text-7xl font-bold font-display leading-tight text-slate-900">
+              Exquisite <span className="text-primary">Flavors</span> <br />
+              Delivered to You
             </h1>
             
-            <p className="text-lg text-muted-foreground max-w-lg leading-relaxed">
-              Experience premium dining delivered to your doorstep. Crafted with passion, seasoned with love, and served with style.
+            <p className="text-lg text-slate-600 max-w-lg leading-relaxed">
+              Experience culinary excellence at your doorstep. Premium ingredients, expert chefs, and swift delivery combine to bring you an unforgettable dining experience.
             </p>
             
             <div className="flex flex-wrap gap-4 pt-4">
               <Link href="/menu">
-                <button className="px-8 py-4 bg-primary text-primary-foreground rounded-xl font-bold text-lg shadow-xl shadow-primary/25 hover:shadow-2xl hover:shadow-primary/40 hover:-translate-y-1 transition-all duration-300 flex items-center gap-2">
-                  Order Now <ArrowRight className="w-5 h-5" />
+                <button className="px-8 py-4 bg-primary text-primary-foreground rounded-full font-bold text-lg shadow-xl shadow-primary/25 hover:shadow-2xl hover:shadow-primary/40 hover:-translate-y-1 transition-all duration-300 flex items-center gap-2">
+                  Explore Menu <ArrowRight className="w-5 h-5" />
                 </button>
               </Link>
-              <Link href="/about">
-                <button className="px-8 py-4 bg-secondary/50 backdrop-blur-md text-foreground border border-white/10 rounded-xl font-bold text-lg hover:bg-secondary hover:border-white/20 transition-all duration-300">
-                  View Menu
+              <Link href="/reviews">
+                <button className="px-8 py-4 bg-white text-slate-900 border border-slate-200 rounded-full font-bold text-lg hover:bg-slate-50 transition-all duration-300 shadow-sm">
+                  Read Reviews
                 </button>
               </Link>
             </div>
@@ -66,8 +66,22 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="hidden lg:block relative"
           >
-            {/* Floating food elements could go here, for now just decorative */}
-            <div className="relative w-full aspect-square rounded-full bg-gradient-to-tr from-primary/20 to-transparent blur-3xl animate-pulse" />
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl shadow-slate-200">
+               <img 
+                src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80" 
+                alt="Featured Burger" 
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute bottom-6 left-6 right-6 bg-white/90 backdrop-blur-md p-4 rounded-2xl border border-slate-100 flex items-center gap-4 shadow-xl">
+                <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
+                  <ShieldCheck className="w-6 h-6" />
+                </div>
+                <div>
+                  <div className="font-bold text-slate-900">Premium Quality</div>
+                  <div className="text-xs text-slate-500">Certified Ingredients</div>
+                </div>
+              </div>
+            </div>
           </motion.div>
         </div>
       </section>
@@ -101,12 +115,12 @@ export default function Home() {
       </section>
 
       {/* Featured Menu */}
-      <section className="py-24 bg-background">
+      <section className="py-24 bg-white">
         <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold font-display mb-4">Trending Now</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Our most popular dishes, loved by foodies all over the city.
+            <h2 className="text-4xl font-bold font-display mb-4 text-slate-900">Bestsellers You'll Love</h2>
+            <p className="text-slate-500 max-w-2xl mx-auto">
+              Discover our most loved dishes, crafted with passion and delivered with care.
             </p>
           </div>
           
@@ -118,10 +132,29 @@ export default function Home() {
 
           <div className="text-center mt-12">
             <Link href="/menu">
-              <button className="px-8 py-3 rounded-xl border border-primary text-primary font-bold hover:bg-primary hover:text-white transition-all duration-300">
+              <button className="px-8 py-3 rounded-xl bg-primary text-white font-bold shadow-xl shadow-primary/20 hover:shadow-2xl hover:shadow-primary/30 transition-all duration-300">
                 View Full Menu
               </button>
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-20 bg-slate-50 border-y border-slate-100">
+        <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {[
+              { label: "Happy Customers", value: "50K+" },
+              { label: "Menu Items", value: "200+" },
+              { label: "Average Rating", value: "4.9" },
+              { label: "Avg Delivery", value: "30min" }
+            ].map((stat, idx) => (
+              <div key={idx} className="text-center space-y-2">
+                <div className="text-3xl font-bold text-slate-900 font-display">{stat.value}</div>
+                <div className="text-sm text-slate-500 font-medium uppercase tracking-wider">{stat.label}</div>
+              </div>
+            ))}
           </div>
         </div>
       </section>

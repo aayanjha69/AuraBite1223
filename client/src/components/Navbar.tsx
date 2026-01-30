@@ -48,13 +48,19 @@ export function Navbar() {
 
           {/* Actions */}
           <div className="flex items-center gap-4">
-            <Link href="/cart" className="relative p-2 rounded-full hover:bg-secondary/50 transition-colors group">
-              <ShoppingBag className="w-6 h-6 text-foreground group-hover:text-primary transition-colors" />
+            <Link href="/cart" className="relative p-2 rounded-full hover:bg-slate-100 transition-colors group">
+              <ShoppingBag className="w-6 h-6 text-slate-900 group-hover:text-primary transition-colors" />
               {itemCount > 0 && (
                 <span className="absolute -top-1 -right-1 w-5 h-5 bg-primary text-white text-xs font-bold rounded-full flex items-center justify-center animate-in zoom-in">
                   {itemCount}
                 </span>
               )}
+            </Link>
+
+            <Link href="/menu">
+              <button className="hidden md:flex items-center gap-2 px-6 py-2.5 bg-primary text-white rounded-full font-bold text-sm shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all active:scale-95">
+                Order Now
+              </button>
             </Link>
 
             {/* Mobile Menu Toggle */}
