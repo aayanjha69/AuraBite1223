@@ -6,14 +6,18 @@ import { useAuth } from "@/hooks/use-auth";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { LocationModal } from "./LocationModal";
+import { Button } from "@/components/ui/button";
 
 export function Navbar() {
   const [routerLocation] = useWouterLocation();
   const { itemCount } = useCart();
   const { location, setLocation } = useLocation();
-  const { user, isAuthenticated, logout, isLoading } = useAuth();
+  const { user, logoutMutation, isLoading } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
+
+  // Derived state
+  const isAuthenticated = !!user;
 
   const navLinks = [
     { href: "/", label: "Home" },
@@ -23,6 +27,11 @@ export function Navbar() {
     { href: "/about", label: "About" },
     { href: "/contact", label: "Contact" },
   ];
+
+  const handleLogout = () => {
+    logoutMutation.mutate();
+    setIsOpen(false);
+  };
 
   return (
     <>
@@ -59,12 +68,11 @@ export function Navbar() {
             {/* Desktop Nav */}
             <div className="hidden md:flex items-center gap-8">
               {navLinks.map((link) => (
-                <Link 
-                  key={link.href} 
+                <Link
+                  key={link.href}
                   href={link.href}
-                  className={`text-sm font-bold transition-colors hover:text-primary ${
-                    routerLocation === link.href ? "text-primary" : "text-slate-900"
-                  }`}
+                  className={`text-sm font-bold transition-colors hover:text-primary ${routerLocation === link.href ? "text-primary" : "text-slate-900"
+                    }`}
                 >
                   {link.label}
                 </Link>
@@ -93,11 +101,11 @@ export function Navbar() {
                           <User className="w-5 h-5 text-slate-600" />
                         )}
                         <span className="text-sm font-medium text-slate-900 max-w-[100px] truncate">
-                          {user?.firstName || "User"}
+                          {user?.firstName || user?.username || "User"}
                         </span>
                       </div>
                       <button
-                        onClick={() => logout()}
+                        onClick={() => handleLogout()}
                         className="p-2 rounded-full hover:bg-slate-100 transition-colors"
                         title="Logout"
                       >
@@ -105,24 +113,24 @@ export function Navbar() {
                       </button>
                     </div>
                   ) : (
-                    <a href="/api/login">
-                      <button className="hidden md:flex items-center gap-2 px-5 py-2.5 bg-slate-900 text-white rounded-full font-bold text-sm hover:bg-slate-800 transition-all active:scale-95">
+                    <Link href="/auth">
+                      <div className="hidden md:flex items-center gap-2 px-5 py-2.5 bg-slate-900 text-white rounded-full font-bold text-sm hover:bg-slate-800 transition-all active:scale-95 cursor-pointer">
                         Sign In
-                      </button>
-                    </a>
+                      </div>
+                    </Link>
                   )}
                 </>
               )}
 
               <Link href="/menu">
-                <button className="hidden md:flex items-center gap-2 px-6 py-2.5 bg-primary text-white rounded-full font-bold text-sm shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all active:scale-95">
+                <div className="hidden md:flex items-center gap-2 px-6 py-2.5 bg-primary text-white rounded-full font-bold text-sm shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all active:scale-95 cursor-pointer">
                   Order Now
-                </button>
+                </div>
               </Link>
 
               {/* Mobile Menu Toggle */}
-              <button 
-                onClick={() => setIsOpen(!isOpen)} 
+              <button
+                onClick={() => setIsOpen(!isOpen)}
                 className="md:hidden p-2 rounded-full hover:bg-slate-100"
               >
                 {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -159,14 +167,13 @@ export function Navbar() {
                 </button>
 
                 {navLinks.map((link) => (
-                  <Link 
-                    key={link.href} 
+                  <Link
+                    key={link.href}
                     href={link.href}
-                    className={`block px-4 py-3 rounded-xl text-base font-medium transition-colors ${
-                      routerLocation === link.href 
-                        ? "bg-primary/10 text-primary" 
+                    className={`block px-4 py-3 rounded-xl text-base font-medium transition-colors ${routerLocation === link.href
+                        ? "bg-primary/10 text-primary"
                         : "text-slate-700 hover:bg-slate-50"
-                    }`}
+                      }`}
                     onClick={() => setIsOpen(false)}
                   >
                     {link.label}
@@ -176,13 +183,18 @@ export function Navbar() {
                 {!isLoading && (
                   <div className="pt-2 border-t border-slate-100 mt-2">
                     {isAuthenticated ? (
-                      <a href="/api/logout" className="block px-4 py-3 rounded-xl text-red-600 font-medium">
+                      <button
+                        onClick={handleLogout}
+                        className="w-full text-left px-4 py-3 rounded-xl text-red-600 font-medium"
+                      >
                         Sign Out
-                      </a>
+                      </button>
                     ) : (
-                      <a href="/api/login" className="block px-4 py-3 rounded-xl bg-slate-900 text-white text-center font-bold">
-                        Sign In
-                      </a>
+                      <Link href="/auth">
+                        <div className="block px-4 py-3 rounded-xl bg-slate-900 text-white text-center font-bold cursor-pointer" onClick={() => setIsOpen(false)}>
+                          Sign In
+                        </div>
+                      </Link>
                     )}
                   </div>
                 )}

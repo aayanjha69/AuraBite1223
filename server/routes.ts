@@ -4,16 +4,15 @@ import { storage } from "./storage";
 import { api } from "@shared/routes";
 import { z } from "zod";
 import { insertOrderSchema, insertReviewSchema, insertMessageSchema } from "@shared/schema";
-import { setupAuth, registerAuthRoutes } from "./replit_integrations/auth";
+import { setupAuth } from "./auth";
 
 export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
 
-  // Setup Replit Auth
-  await setupAuth(app);
-  registerAuthRoutes(app);
+  // Setup Auth
+  setupAuth(app);
 
   // Menu Routes
   app.get(api.menu.list.path, async (_req, res) => {
@@ -89,13 +88,13 @@ async function seedDatabase() {
   const existingItems = await storage.getMenuItems();
   if (existingItems.length === 0) {
     console.log("Seeding database...");
-    
+
     // Seed Menu Items
     const menuItems = [
       {
         name: "Wagyu Gold Burger",
         description: "Premium A5 Wagyu beef patty, caramelized onions, aged cheddar, and truffle aioli on a toasted brioche bun.",
-        price: 650, 
+        price: 650,
         category: "Meals",
         image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800",
         popular: true,
@@ -104,7 +103,7 @@ async function seedDatabase() {
       {
         name: "Truffle Mushroom Pasta",
         description: "Creamy fettuccine with authentic black truffle shavings, wild forest mushrooms, and aged parmesan.",
-        price: 450, 
+        price: 450,
         category: "Meals",
         image: "https://images.unsplash.com/photo-1473093226795-af9932fe5856?auto=format&fit=crop&w=800",
         popular: true,
@@ -113,7 +112,7 @@ async function seedDatabase() {
       {
         name: "Premium Sushi Platter",
         description: "Assorted fresh sashimi and nigiri with premium wasabi and pickled ginger.",
-        price: 890, 
+        price: 890,
         category: "Meals",
         image: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=800",
         popular: true,
@@ -122,7 +121,7 @@ async function seedDatabase() {
       {
         name: "Avocado & Egg Sourdough",
         description: "Freshly smashed Hass avocado, poached organic eggs, and microgreens on artisan sourdough.",
-        price: 320, 
+        price: 320,
         category: "Breakfast",
         image: "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=800",
         popular: false,
@@ -131,7 +130,7 @@ async function seedDatabase() {
       {
         name: "Berry Nutella Crepes",
         description: "Thin French crepes filled with Nutella and topped with a medley of fresh seasonal berries.",
-        price: 280, 
+        price: 280,
         category: "Breakfast",
         image: "https://images.unsplash.com/photo-1519676867240-f03562e64548?auto=format&fit=crop&w=800",
         popular: true,
@@ -140,7 +139,7 @@ async function seedDatabase() {
       {
         name: "Crispy Peri Peri Fries",
         description: "Hand-cut golden fries tossed in our signature peri peri spice blend.",
-        price: 180, 
+        price: 180,
         category: "Snacks",
         image: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=800",
         popular: false,
@@ -149,7 +148,7 @@ async function seedDatabase() {
       {
         name: "Classic Cold Brew",
         description: "12-hour slow-steeped Arabica coffee served over ice.",
-        price: 220, 
+        price: 220,
         category: "Drinks",
         image: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=800",
         popular: true,
@@ -158,7 +157,7 @@ async function seedDatabase() {
       {
         name: "Exotic Dragon Fruit Bowl",
         description: "Fresh dragon fruit, granola, chia seeds, and honey drizzle.",
-        price: 380, 
+        price: 380,
         category: "Breakfast",
         image: "https://images.unsplash.com/photo-1511690656952-34342bb7c2f2?auto=format&fit=crop&w=800",
         popular: false,

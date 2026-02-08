@@ -21,6 +21,7 @@ import Contact from "@/pages/Contact";
 import Subscriptions from "@/pages/Subscriptions";
 import OrderSuccess from "@/pages/OrderSuccess";
 import NotFound from "@/pages/not-found";
+import AuthPage from "@/pages/Auth";
 
 function Router() {
   return (
@@ -35,6 +36,8 @@ function Router() {
       <Route path="/contact" component={Contact} />
       <Route path="/subscriptions" component={Subscriptions} />
       <Route path="/order-success" component={OrderSuccess} />
+
+      <Route path="/auth" component={AuthPage} />
       <Route component={NotFound} />
     </Switch>
   );
@@ -52,11 +55,11 @@ function App() {
               <Router />
             </main>
             <Footer />
-            
+
             {/* WhatsApp Float Button */}
-            <a 
-              href="https://wa.me/917277775111" 
-              target="_blank" 
+            <a
+              href="https://wa.me/917277775111"
+              target="_blank"
               rel="noopener noreferrer"
               className="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform active:scale-95 flex items-center justify-center"
               aria-label="Chat on WhatsApp"

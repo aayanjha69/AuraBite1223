@@ -1,9 +1,10 @@
-import { 
+import {
   type MenuItem, type InsertMenuItem,
   type Review, type InsertReview,
   type Order, type InsertOrder,
   type Message, type InsertMessage,
-  menuItems, reviews, orders, messages
+  type User, type UpsertUser,
+  menuItems, reviews, orders, messages, users
 } from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
@@ -12,16 +13,21 @@ export interface IStorage {
   // Menu
   getMenuItems(): Promise<MenuItem[]>;
   getMenuItem(id: number): Promise<MenuItem | undefined>;
-  
+
   // Reviews
   getReviews(): Promise<Review[]>;
   createReview(review: InsertReview): Promise<Review>;
-  
+
   // Orders
   createOrder(order: InsertOrder): Promise<Order>;
-  
+
   // Contact
   createMessage(message: InsertMessage): Promise<Message>;
+
+  // User
+  getUser(id: string): Promise<User | undefined>;
+  getUserByUsername(username: string): Promise<User | undefined>;
+  createUser(user: UpsertUser): Promise<User>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -51,6 +57,21 @@ export class DatabaseStorage implements IStorage {
   async createMessage(insertMessage: InsertMessage): Promise<Message> {
     const [message] = await db.insert(messages).values(insertMessage).returning();
     return message;
+  }
+
+  async getUser(id: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user;
+  }
+
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user;
+  }
+
+  async createUser(insertUser: UpsertUser): Promise<User> {
+    const [user] = await db.insert(users).values(insertUser).returning();
+    return user;
   }
 }
 
