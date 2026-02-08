@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { api, type InsertReview } from "@shared/routes";
+import { api } from "@shared/routes";
+import { type InsertReview } from "@shared/schema";
 import { useToast } from "@/hooks/use-toast";
 
 export function useReviews() {
@@ -24,7 +25,7 @@ export function useCreateReview() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-      
+
       if (!res.ok) throw new Error("Failed to submit review");
       return api.reviews.create.responses[201].parse(await res.json());
     },

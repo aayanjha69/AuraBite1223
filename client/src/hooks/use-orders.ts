@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { api, type InsertOrder } from "@shared/routes";
+import { api } from "@shared/routes";
+import { type InsertOrder } from "@shared/schema";
 import { useToast } from "@/hooks/use-toast";
 
 export function useCreateOrder() {
@@ -13,7 +14,7 @@ export function useCreateOrder() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-      
+
       if (!res.ok) {
         if (res.status === 400) {
           const error = await res.json();
@@ -21,7 +22,7 @@ export function useCreateOrder() {
         }
         throw new Error("Failed to create order");
       }
-      
+
       return api.orders.create.responses[201].parse(await res.json());
     },
     onSuccess: () => {

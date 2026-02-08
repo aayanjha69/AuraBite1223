@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import { api, type InsertMessage } from "@shared/routes";
+import { api } from "@shared/routes";
+import { type InsertMessage } from "@shared/schema";
 import { useToast } from "@/hooks/use-toast";
 
 export function useSendMessage() {
@@ -12,7 +13,7 @@ export function useSendMessage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-      
+
       if (!res.ok) throw new Error("Failed to send message");
       return api.contact.create.responses[201].parse(await res.json());
     },

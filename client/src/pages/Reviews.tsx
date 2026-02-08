@@ -21,7 +21,7 @@ export default function Reviews() {
   return (
     <div className="min-h-screen pt-24 pb-16 px-4 bg-white">
       <div className="max-w-7xl mx-auto grid lg:grid-cols-3 gap-12">
-        
+
         {/* Review Form */}
         <div className="lg:col-span-1">
           <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200 sticky top-24">
@@ -29,7 +29,7 @@ export default function Reviews() {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <div className="space-y-2">
                 <label className="text-sm font-medium text-slate-700">Your Name</label>
-                <input 
+                <input
                   {...form.register("name")}
                   className="w-full bg-white rounded-lg px-4 py-3 border border-slate-200 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary text-slate-900"
                   placeholder="Your name"
@@ -39,7 +39,7 @@ export default function Reviews() {
 
               <div className="space-y-2">
                 <label className="text-sm font-medium text-slate-700">Rating</label>
-                <select 
+                <select
                   {...form.register("rating", { valueAsNumber: true })}
                   className="w-full bg-white rounded-lg px-4 py-3 border border-slate-200 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary text-slate-900"
                 >
@@ -53,7 +53,7 @@ export default function Reviews() {
 
               <div className="space-y-2">
                 <label className="text-sm font-medium text-slate-700">Comment</label>
-                <textarea 
+                <textarea
                   {...form.register("comment")}
                   className="w-full bg-white rounded-lg px-4 py-3 border border-slate-200 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary min-h-[120px] text-slate-900"
                   placeholder="Tell us about your experience..."
@@ -75,7 +75,7 @@ export default function Reviews() {
         {/* Reviews List */}
         <div className="lg:col-span-2 space-y-6">
           <h1 className="text-3xl font-bold font-display mb-8 text-slate-900">Customer Reviews</h1>
-          
+
           {isLoading ? (
             <div className="flex justify-center py-12"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>
           ) : (
@@ -90,16 +90,16 @@ export default function Reviews() {
                       <h4 className="font-bold text-slate-900">{review.name}</h4>
                       <div className="flex text-primary text-xs">
                         {[...Array(5)].map((_, i) => (
-                          <Star 
-                            key={i} 
-                            className={`w-3 h-3 ${i < review.rating ? "fill-current" : "opacity-30"}`} 
+                          <Star
+                            key={i}
+                            className={`w-3 h-3 ${i < review.rating ? "fill-current" : "opacity-30"}`}
                           />
                         ))}
                       </div>
                     </div>
                   </div>
                   <span className="text-xs text-slate-500">
-                    {new Date(review.createdAt).toLocaleDateString()}
+                    {review.createdAt && new Date(review.createdAt).toLocaleDateString()}
                   </span>
                 </div>
                 <p className="text-slate-600 leading-relaxed pl-14 relative">
